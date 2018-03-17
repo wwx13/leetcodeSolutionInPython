@@ -22,3 +22,36 @@ def removeduplicate3(intls):  #O(n)
             intls.pop(intls.index(i)+1)
     return intls
 print(removeduplicate3([1,1,2,3,3,5,5,5,7]))
+
+#Follow up for "Remove Duplicates": What if duplicates are allowed at most twice?
+# For example, given sorted array A = [1,1,1,2,2,3] , your function should
+# return length = 5 , and A is now [1,1,2,2,3]
+#python里的字典就像java里的HashMap，以键值对的方式存在并操作，其特点如下
+# 通过键来存取，而非偏移量；	键值对是无序的；	键和值可以是任意对象；
+
+def reomveDup(inls,times):
+    hashtable={}
+    newls=[]
+    for i in set(inls):
+        hashtable[i]=0
+    for j in inls:
+        if hashtable[j]>=times:
+            pass
+        else:
+            hashtable[j]+=1
+            newls.append(j)
+    return newls
+print(reomveDup([1,1,2,2,3,3,3,3,5],2))
+#思考为什么需要一个新的列表存储结果而不是直接删除原列表元素
+# ls = [1, 2, 3, 4, 5]
+# for i in ls:
+#     if i == 2:
+#         ls.remove(i)
+#     else:
+#         print(i)
+# 
+# 1
+# 4
+# 5   （输出没有3）
+# ls
+# [1, 3, 4, 5]  （但是里面有3）
