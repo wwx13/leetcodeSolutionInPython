@@ -1,0 +1,12 @@
+#前缀表达式求值  递归
+a="* + * 43 + 6 8 67"
+a=["*","+","*","4","3","+","6","8","67"]
+def aw():
+    i=a.pop(0)
+    if i=='+':
+        return aw()+aw()
+    elif i=='*':
+        return aw()*aw()
+    else:
+        return int(i)      
+m=aw()
