@@ -1,4 +1,4 @@
-#八皇后问题
+#八皇后问题  递归回溯
 def check(ls):
     n=len(ls)
     if n==1:
