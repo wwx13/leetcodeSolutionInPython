@@ -1,0 +1,22 @@
+#八皇后问题
+def check(ls):
+    n=len(ls)
+    if n==1:
+        return True
+    for i in range(0,n):
+        for j in range(0,n):
+            if i!=j:
+                if abs(i-j)==abs(ls[i]-ls[j]) or ls[i]==ls[j]:  #对角线  和同列  不能相同
+                    return False
+    return True
+ls=[-1,-1,-1,-1,-1,-1,-1,-1]  #初始化
+def queen_problem(k):
+    if k==8:
+        print(ls)#存储使用yield()方法   这里只是输出所有结果
+        return True
+    else:
+        for i in range(0,8):
+            ls[k]=i
+            ls[k+1:]=[-1 for i in range(k+1,8)]  #回溯必须还原后面的值为-1
+            if  check(ls[0:k+1]):
+                queen_problem(k+1)
