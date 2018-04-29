@@ -1,0 +1,45 @@
+#表达式的定义就是递归形式的：一个表达式由多项式的+ -组成，一个多项式由因子的* /组成，一个因子由带括号的表达式和数字组成。
+#实现的时候不会了就默念上面的定义
+#思考 return  到底代表什么意思:调用函数的语句就是父亲，叫你你最后要回应一声，就是return
+
+def Compute_lambda(ls):
+    count_brackets=0
+    for i in ls:
+        if i=="(":
+            count_brackets+=1
+        if i==")":
+            count_brackets-=1
+        if count_brackets==0:
+            if i=="+":
+                sign=ls.index(i)
+                # print(sign)
+                return multiExpression(ls[0:sign])+Compute_lambda(ls[sign+1:])
+            if i=="-":
+                sign = ls.index(i)
+                return multiExpression(ls[0:sign]) - Compute_lambda(ls[sign + 1:])
+            if ls.index(i)==len(ls)-1:
+                return multiExpression(ls)
+def multiExpression(ls):
+    count_brackets = 0
+    for i in ls:
+        if i == "(":
+            count_brackets += 1
+        if i == ")":
+            count_brackets -= 1
+        if count_brackets == 0:
+            if i == "*":
+                sign = ls.index(i)
+                return factor_s(ls[0:sign]) * multiExpression(ls[sign + 1:])
+            if i == "/":
+                sign = ls.index(i)
+                return factor_s(ls[0:sign]) / multiExpression(ls[sign + 1:])
+            if ls.index(i) == len(ls) - 1:
+                return factor_s(ls)
+
+def factor_s(ls):
+    if "(" not in ls:
+        return float(ls)
+    else:
+        return Compute_lambda(ls[1:-1])
+
+print(Compute_lambda("(3+2)*3-9*(3-2/1)"))
