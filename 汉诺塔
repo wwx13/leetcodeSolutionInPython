@@ -1,0 +1,7 @@
+#汉诺塔游戏  递归
+def HanNuo(n,start,end):
+    if n==1:
+        HanNuo(1,start,end)
+    HanNuo(n-1,start,mid)
+    HanNuo(1,start,end)
+    HanNuo(n-1,sart,end)
