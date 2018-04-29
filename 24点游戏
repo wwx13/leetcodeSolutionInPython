@@ -1,0 +1,30 @@
+#24点游戏   输入一系列数，判断能不能通过加减乘除括号运算得出24，这里给出了可以运算的算式结果
+#输出例如:
+#     可以得到24 [[1, '/', 2], [3, '-', 0.5], [5, '/', 2.5], [10, '-', 2.0], [8.0, '*', 3]]
+#上面输出表示可以通过式：   (10-5/(3-（1/2）))*3=24
+ls=[2,1,3,5,10,3]
+save=[0,0,0,0,0]
+
+def have_24_game(fore,i):
+    # print(i1,"i1")
+    i = i + 1
+    if i==len(ls):
+        # print("sss",fore)
+        if fore-24==0:
+            print("可以得到24",save)
+        return True
+    save[i-1]=[fore,"+",ls[i]]
+    have_24_game(fore+ls[i],i)
+    # save.pop()
+    save[i-1]=[fore,"-",ls[i]]
+    have_24_game(fore-ls[i],i)
+    save[i-1]=[ls[i],"-",fore]
+    have_24_game(ls[i]-fore,i)
+    save[i-1]=[fore,"*",ls[i]]
+    have_24_game(fore*ls[i],i)
+    save[i-1]=[fore,"/",ls[i]]
+    have_24_game(fore/ls[i],i)
+    if fore!=0:
+        save[i-1]=[ls[i],"/",fore]
+        have_24_game(ls[i]/fore,i)
+have_24_game(ls[0],0)
