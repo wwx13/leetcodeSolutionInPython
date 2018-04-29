@@ -1,0 +1,23 @@
+#  把M个同样的苹果放在N个同样的盘子里，允许有的盘子空着不放，问共有多少种不同的分法？（用K表示）5，1，1和1，5，1 是同一种分法。
+ls=[]
+def manage_apple(j,n):
+    if j > 3:
+        if n == 10:
+            print(ls)
+        return True
+    for i in range(1,11):
+        if len(ls)-1<j:
+            ls.append(i)
+        else:
+            ls[j]=i
+        # print(n)
+        manage_apple(j+1,n+i)
+manage_apple(0,0)
+
+
+
+
+
+# 分两种情况：a.至少有一个盘子为空，此时放法种数与减去这个空盘子的放法种数相同，函数为fun（m,n-1）。
+# b.所有盘子都不为空，此时可以从每个盘子里拿掉一个苹果而不影响放法种数，函数为fun(m-n,n)。
+# 因此总数为：fun(m,n)=fun(m,n-1)+fun(m-n,n)
