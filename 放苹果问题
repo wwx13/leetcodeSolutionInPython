@@ -21,3 +21,14 @@ manage_apple(0,0)
 # 分两种情况：a.至少有一个盘子为空，此时放法种数与减去这个空盘子的放法种数相同，函数为fun（m,n-1）。
 # b.所有盘子都不为空，此时可以从每个盘子里拿掉一个苹果而不影响放法种数，函数为fun(m-n,n)。
 # 因此总数为：fun(m,n)=fun(m,n-1)+fun(m-n,n)
+def put_apple(n,m):
+    # print(n,m)
+    if n==0:
+        return 1
+    if m==0:
+        return 0
+    if n<m:
+        return put_apple(n,n)
+    else:
+        return put_apple(n-m,m)+put_apple(n,m-1)
+print(put_apple(10,2))   #打印出n和苹果放M个盘子总次数
