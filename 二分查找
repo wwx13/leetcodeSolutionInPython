@@ -15,7 +15,7 @@ ef binrary_search(ls,start,end,n):
         else:
             print("no find")
             return False
-    binrary_search(ls,start,end,n)
+    return binrary_search(ls,start,end,n)           #一定要有return
 # binrary_search([1,2,3,4,5,6,7,8,9],0,8,7)
 
 
@@ -31,3 +31,20 @@ def get_res(ls,start,end):
         end=int((start+end)/2)
     return get_res(ls,start,end)
 print(get_res([i for i in range(1,101)],0,99))
+
+#在指定有序序列里找到是否存在两个整数相加和为m
+#输出示例：
+#   find 37
+#   791
+#   True
+#表示在序列里的791和37刚好相加是指定的m  828
+#算法复杂度为n*log(n)        
+import random
+def get_sum_to_n(ls,n):
+    for i in ls:
+        newls=ls[ls.index(i)+1:]
+        if binrary_search(newls,0,len(newls)-1,n-i):
+            print(i)
+            return True
+    return False
+print(get_sum_to_n([random.randint(1,10000) for i in range(1,10001)],828))
