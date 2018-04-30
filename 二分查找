@@ -1,5 +1,5 @@
-#二分查找
-ef binrary_search(ls,start,end,n):
+#二分查找  前提是有序序列
+def binrary_search(ls,start,end,n):
     temp=ls[int((start+end)/2)]
     if n>temp:
         start=int((start+end)/2)
@@ -15,7 +15,7 @@ ef binrary_search(ls,start,end,n):
         else:
             print("no find")
             return False
-    return binrary_search(ls,start,end,n)           #一定要有return
+    return binrary_search(ls,start,end,n)           #需要最后返回一种T F  则要有return  
 # binrary_search([1,2,3,4,5,6,7,8,9],0,8,7)
 
 
@@ -47,4 +47,4 @@ def get_sum_to_n(ls,n):
             print(i)
             return True
     return False
-print(get_sum_to_n([random.randint(1,10000) for i in range(1,10001)],828))
+print(get_sum_to_n([random.randint(1,10000) for i in range(1,10001)].sort,828))
