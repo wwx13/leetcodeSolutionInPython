@@ -1,0 +1,53 @@
+#算法中的很多思想有联系 不一定很需要界定某个方法为什么名称的算法   比如分治一般借助递归实现，它也可以算递归里面
+#归并排序
+def merge_sort(ls):
+    if len(ls)==2:
+        if ls[0]>ls[1]:
+            big=ls[0]
+            ls[0]=ls[1]
+            ls[1]=big
+            return ls
+        return ls
+    if len(ls)==1:
+        return ls
+    x1=merge_sort(ls[0:int((len(ls)-1)/2)+1])
+    x2=merge_sort(ls[int((len(ls)-1)/2)+1:])
+    index1=0
+    index2=0
+    sorted_ls=[]
+    while index2<len(x2) and index1<len(x1):
+        if x1[index1]<x2[index2]:
+            sorted_ls.append(x1[index1])
+            index1+=1
+        else:
+            sorted_ls.append(x2[index2])
+            index2+=1
+    if index1!=len(x1):
+        sorted_ls=sorted_ls+x1[index1:]
+    elif index2!=len(x2):
+        sorted_ls=sorted_ls+x2[index2:]
+    return sorted_ls
+
+# print(merge_sort([3,1,6,7,10,99,2,1]))
+#快速排序
+def quick_sort(ls):
+    if len(ls)==2:
+        if ls[0]>ls[1]:
+            big=ls[0]
+            ls[0]=ls[1]
+            ls[1]=big
+            return ls
+        return ls
+    if len(ls)==1 or len(ls)==0:
+        return ls
+    flag=ls[0]
+    left=[]
+    right=[]
+    for index in range(1,len(ls)):
+        if ls[index]<flag:
+            left.append(ls[index])
+        else:
+            right.append(ls[index])
+    return quick_sort(left)+[flag]+quick_sort(right)
+print(quick_sort([3,1,6,7,10,99,2,1]))
+
