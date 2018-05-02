@@ -1,0 +1,19 @@
+#给定一个三角形从上往下，每个元素只能访问正下方和正右下方两个元素，求从顶端到低端加和最大的那个路径。
+#7
+#3 8
+#8 1 0
+#2 7 4 4
+#4 5 2 6 5
+#输出  30   （7 3 8 7 5）
+
+#解法1  递归穷举方法
+test_triangle=[[7],[3,8],[8,1,0],[2,7,4,4],[4,5,2,6,5]]                
+def  max_route(triangle,i,j,leng):
+    if i==4:
+        leng=leng+triangle[i][j]
+        return leng
+    leng=leng+triangle[i][j]
+    x1=max_route(triangle,i+1,j,leng)
+    x2=max_route(triangle,i+1,j+1,leng)
+    return max(x1,x2)
+print(max_route(test_triangle,0,0,0))
