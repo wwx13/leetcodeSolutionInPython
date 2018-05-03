@@ -17,3 +17,29 @@ def  max_route(triangle,i,j,leng):
     x2=max_route(triangle,i+1,j+1,leng)
     return max(x1,x2)
 print(max_route(test_triangle,0,0,0))
+
+#解法2 递归动归法ls=[[7],[3,8],[8,1,0],[2,7,7,4],[5,5,2,6,5]]
+savels=[[-1],[-1,-1],[-1,-1,-1],[-1,-1,-1,-1],[-1,-1,-1,-1,-1]]
+def recursion_find(ls,i,j,leng):
+    if savels[i][j]!=-1:
+        return savels[i][j]
+    if i==4:
+        leng=leng+ls[i][j]
+        return leng
+    leng=leng+ls[i][j]
+    savels[i][j]=leng
+    x1=recursion_find(ls,i+1,j,leng)
+    x2=recursion_find(ls,i+1,j+1,leng)
+    return max(x1,x2)
+# print(recursion_find(ls,0,0,0))
+#解法3 非递归反向求解+空间优化方法
+savels=[]
+def reverse_no_recursion_find(ls):
+    for i in range(len(ls)-1,-1,-1):
+        if i!=len(ls)-1:
+            for j in range(0,len(ls[i])):
+                ls[i][j]=max(ls[i+1][j],ls[i+1][j+1])+ls[i][j]
+                print(ls[i][j])
+    return ls[0][0]
+print(reverse_no_recursion_find(ls))
+
