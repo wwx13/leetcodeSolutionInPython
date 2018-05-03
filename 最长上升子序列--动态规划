@@ -1,14 +1,16 @@
 #上升为增序
 #例如序列 1,7,3,5,9,4,1  最长上升序列长度为4
 
-def get_longest_raise_seq(ls):
+def get_longest_raise_seq2(ls):
     savels=[-1 for i in range(0,len(ls))]
     for index in range(0,len(ls)):
         if index==0:
             savels[index]=1
+#        if index==1:
         for search_index in range(index-1,-1,-1):
             if ls[search_index]<ls[index]:
-                savels[index]=savels[search_index]+1
-                break
+                temp=savels[search_index]+1
+                if temp>savels[index]:
+                    savels[index]=temp
     return max(savels)
-print(get_longest_raise_seq([1,7,3,5,9,4,1]))
+print(get_longest_raise_seq2([1,2,3,8,9,7,12]))    
