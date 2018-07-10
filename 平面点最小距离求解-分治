@@ -1,5 +1,5 @@
 import  math
-def quickSort(ls):
+def quickSort(ls):  #O(nlogn)
     if len(ls)<2:
         return ls
     flag=ls[0]
@@ -31,21 +31,21 @@ x_=quickSort(x_dot)
 y_=quickSort(y_dot)
 def calculate(dota,dotb):#计算给定两点的距离
     return math.sqrt((dota[0]-dotb[0])**2+(dota[1]-dotb[1])**2)
-def get_left_right(dot,mid_cutIndex):#返回递归处理的子部分点
+def get_left_right(dot,mid_cutIndex):#返回递归处理的子部分点   O(n)
     right=[i for i in dot if i[0]>=mid_cutIndex]
     left=[i for i in dot if i[0]<mid_cutIndex]
     x_left,y_left=get_x_y(left)
     x_right,y_right=get_x_y(right)
     return left,x_left,y_left,right,x_right,y_right
-def get_x_y(dot):#给定点集合获取有序的x,y集合
+def get_x_y(dot):#给定点集合获取有序的x,y集合   #O(nlogn)
     return quickSort([i[0] for i in dot]),quickSort([i[1] for i in dot])
-def crossDot(dot,theta,cutIndex):#返回一边的交叉点集合
+def crossDot(dot,theta,cutIndex):#返回一边的交叉点集合   O(n)
     cross_dot=[]
     for d in dot:
         if abs(d[0]-cutIndex)<=theta:
             cross_dot.append(d)
     return cross_dot,[i[1] for i in cross_dot]
-def calculate_crossDistance(dot_left,y_right,theta):#y_right不需要有序，是对面交叉部分的纵坐标集合
+def calculate_crossDistance(dot_left,y_right,theta):#y_right不需要有序，是对面交叉部分的纵坐标集合  #O(n)
     miner=9999
     for each_left in dot_left:
         for m in y_right:
@@ -63,7 +63,7 @@ def boundary_calculate(dot):
     else:  
         a1 = calculate(dot[0], dot[1])
         return a1
-def find_minDistance(dot,x,y):
+def find_minDistance(dot,x,y):  #T(n)=2T(n/2)+O(nlogn)+...
     if len(x)<=3:
         return boundary_calculate(dot)
     mid_index=len(x)//2
