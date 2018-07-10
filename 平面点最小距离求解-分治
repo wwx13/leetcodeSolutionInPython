@@ -1,0 +1,84 @@
+import  math
+def quickSort(ls):
+    if len(ls)<2:
+        return ls
+    flag=ls[0]
+    left_index=1
+    right_index=len(ls)-1
+    while left_index-right_index<0 or left_index==right_index:
+        # temp = 0
+        if ls[left_index]<flag or ls[right_index]>flag:
+            if ls[left_index]<flag:
+                left_index+=1
+            if ls[right_index]>flag:
+                right_index-=1
+        else:
+            temp=ls[right_index]
+            ls[right_index]=ls[left_index]
+            ls[left_index]=temp
+            left_index+=1
+            right_index-=1
+    return quickSort(ls[1:left_index])+[flag]+quickSort(ls[left_index:])
+
+#quickSort([2,1,3,8])
+orgin_dot=[[1,2],[-1,-1],[0,4],[7,7], [-300,-300]]
+dot=[[1,2],[-1,-1],[0,4],[7,7], [-300,-300]]
+x_dict={1:0,-1:1,0:2,7:3,-300:4}
+y_dict={2:0,-1:1,4:2,7:3,-300:4}
+x_dot=[1,-1,0,7,-300]
+y_dot=[2,-1,4,7,-300]
+x_=quickSort(x_dot)
+y_=quickSort(y_dot)
+def calculate(dota,dotb):#计算给定两点的距离
+    return math.sqrt((dota[0]-dotb[0])**2+(dota[1]-dotb[1])**2)
+def get_left_right(dot,mid_cutIndex):#返回递归处理的子部分点
+    right=[i for i in dot if i[0]>=mid_cutIndex]
+    left=[i for i in dot if i[0]<mid_cutIndex]
+    x_left,y_left=get_x_y(left)
+    x_right,y_right=get_x_y(right)
+    return left,x_left,y_left,right,x_right,y_right
+def get_x_y(dot):#给定点集合获取有序的x,y集合
+    return quickSort([i[0] for i in dot]),quickSort([i[1] for i in dot])
+def crossDot(dot,theta,cutIndex):#返回一边的交叉点集合
+    cross_dot=[]
+    for d in dot:
+        if abs(d[0]-cutIndex)<=theta:
+            cross_dot.append(d)
+    return cross_dot,[i[1] for i in cross_dot]
+def calculate_crossDistance(dot_left,y_right,theta):#y_right不需要有序，是对面交叉部分的纵坐标集合
+    miner=9999
+    for each_left in dot_left:
+        for m in y_right:
+            if abs(m-each_left[1])<=2*theta:
+                cross_dis=calculate(each_left, orgin_dot[y_dict[m]])
+                if cross_dis<miner:
+                    miner=cross_dis
+    return miner
+def boundary_calculate(dot):
+    if len(dot)==3:
+        a1=calculate(dot[0],dot[1])
+        a2=calculate(dot[1],dot[2])
+        a3=calculate(dot[0],dot[2])
+        return  min(a1,a2,a3)
+    else:  
+        a1 = calculate(dot[0], dot[1])
+        return a1
+def find_minDistance(dot,x,y):
+    if len(x)<=3:
+        return boundary_calculate(dot)
+    mid_index=len(x)//2
+    mid_cutIndex=x_[mid_index]
+    left, x_left, y_left, right, x_right, y_right=get_left_right(dot,mid_cutIndex)
+    min_left=find_minDistance(left,x_left,y_left)
+    min_right=find_minDistance(right,x_right,y_right)
+    theta=min(min_left,min_right)
+    left_cross_dot,ycross_left=crossDot(left,theta,mid_cutIndex)
+    right_cross_dot,ycross_right=crossDot(right,theta,mid_cutIndex)
+    cross_min=calculate_crossDistance(left_cross_dot,ycross_right,theta)
+    if cross_min<theta:
+        return cross_min
+    else:
+        return theta
+print(find_minDistance(dot,x_,y_))
+
+
