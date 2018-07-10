@@ -1,0 +1,29 @@
+ls=[1,2,5,6,-1,99,20,-1,-22,33,24]
+def get_max_min(ls):# T(n)=2T(n/2)+O(2)    =O(n)
+    length=len(ls)
+    if length==2:  #边界为只剩两个点 一个返回为最大值一个为最小值
+        if ls[0]<ls[1]:
+            return ls[1],ls[0]
+        else:
+            return ls[0],ls[1]
+    if length%2!=0:#轮空处理
+
+        cut_index=(length-1)//2
+        max1,min1=get_max_min(ls[0:cut_index])
+        max2,min2=get_max_min(ls[cut_index:-1])
+        mx=max(max1,max2)
+        mi=min(min1,min2)
+        # print(mx,mi)
+        if ls[-1]>mx:#与轮空比较
+            mx=ls[-1]
+
+        elif ls[-1]<mi:
+            mi=ls[-1]
+    else:
+        cut_index = length // 2
+        max1, min1 = get_max_min(ls[0:cut_index])
+        max2, min2 = get_max_min(ls[cut_index:])
+        mx = max(max1, max2)
+        mi = min(min1, min2)
+    return mx,mi
+print(get_max_min(ls))
