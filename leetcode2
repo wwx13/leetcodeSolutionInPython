@@ -1,0 +1,67 @@
+# Definition for singly-linked list.
+# Input: (2 -> 4 -> 3) + (5 -> 6 -> 4)
+# Output: 7 -> 0 -> 8
+# Explanation: 342 + 465 = 807.
+class ListNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+    def set_next(self,n):
+        next_node=ListNode(n)
+        self.next=next_node
+        return next_node
+end=ListNode(2)
+end.set_next(4).set_next(3)
+# print(end.val,end.next.val,end.next.next.val)
+end2=ListNode(5)
+end2.set_next(6)
+def get_sum_linklist(end,end2):
+    l=[]
+    add_one=False
+    tempnode1=end
+    tempnode2=end2
+    res_nod=ListNode(-1)
+    next=res_nod
+    while tempnode1.next!=None and tempnode2.next!=None:
+        if add_one==True:
+            if(tempnode1.val+tempnode2.val+1)>=10:
+                if next.val==-1:
+                    next.val=(tempnode1.val+tempnode2.val+1)%10
+                else:
+
+                    next=next.set_next((tempnode1.val+tempnode2.val+1)%10)
+            else:
+                if next.val==-1:
+                    next.val=tempnode1.val+tempnode2.val+1
+                    add_one=False
+                else:
+                    next=next.set_next(tempnode1.val+tempnode2.val+1)
+                    add_one=False
+        else:
+            if (tempnode1.val + tempnode2.val) >= 10:
+                if next.val == -1:
+                    next.val = (tempnode1.val + tempnode2.val ) % 10
+                else:
+                    next=next.set_next((tempnode1.val + tempnode2.val) % 10)
+                add_one=True
+            else:
+                if next.val == -1:
+                    next.val = tempnode1.val + tempnode2.val
+                else:
+                    next=next.set_next(tempnode1.val + tempnode2.val)
+                add_one=False
+        tempnode1=tempnode1.next
+        tempnode2=tempnode2.next
+    if tempnode1.next!=None:
+        longerNode=tempnode1
+    else:
+        longerNode=tempnode2
+    while longerNode.next!=None:
+        if add_one==True:
+            next=next.set_next(longerNode.next.val+1)
+            add_one=False
+        else:
+            next=next.set_next(longerNode.next.val)
+        longerNode=longerNode.next
+    return res_nod
+print(get_sum_linklist(end,end2).next.next.val)
