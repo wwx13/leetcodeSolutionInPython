@@ -11,6 +11,49 @@
 #
 # Given "pwwkew", the answer is "wke", with the length of 3.
 # Note that the answer must be a substring, "pwke" is a subsequence and not a substring.
+# longest,start,is_visited=0,0,[False for i in range(256)]
+def get_longest_len(ls):
+    longest, start, is_visited = 0, 0, [False for i in range(256)]
+    for id,value in enumerate(ls):
+        if not is_visited[ord(value)]:
+            is_visited[ord(value)]=True
+            longest=max(longest,id-start+1)
+        else:
+            new_start=start
+            while value!=ls[new_start]:
+                is_visited[ord(ls[new_start])]=False
+                new_start+=1
+
+            new_start+=1
+            longest=max(longest,id-start)
+            start=new_start
+
+    return longest
+print(get_longest_len(['A','B','c','D','B','x','x',"l"]))
+#输出应该为4
+
+
+
+
+
+
+
+
+
+#下面是一个我做错的例子  emmm
+# -*- coding:utf-8 -*-
+
+
+# Given a string, find the length of the longest substring without repeating characters.
+#
+# Examples:
+#
+# Given "abcabcbb", the answer is "abc", which the length is 3.
+#
+# Given "bbbbb", the answer is "b", with the length of 1.
+#
+# Given "pwwkew", the answer is "wke", with the length of 3.
+# Note that the answer must be a substring, "pwke" is a subsequence and not a substring.
 def find_maxLen_seq(ls):
     count=0
     length=len(ls)
