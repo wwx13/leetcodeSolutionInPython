@@ -1,0 +1,40 @@
+# -*- coding:utf-8 -*-
+
+
+# Given a string, find the length of the longest substring without repeating characters.
+#
+# Examples:
+#
+# Given "abcabcbb", the answer is "abc", which the length is 3.
+#
+# Given "bbbbb", the answer is "b", with the length of 1.
+#
+# Given "pwwkew", the answer is "wke", with the length of 3.
+# Note that the answer must be a substring, "pwke" is a subsequence and not a substring.
+def find_maxLen_seq(ls):
+    count=0
+    length=len(ls)
+    compare_pool=[]
+    keys_pool=[]#存储在dict里的键 增序
+    save_res={}
+    for  i in ls:
+        if i in compare_pool:#遇到重复的了
+            if save_res=={}:
+                save_res[count]=compare_pool
+                keys_pool.append(count)
+                count=1
+                compare_pool=[i]
+            else:
+                if count>max(keys_pool):
+                    save_res[count]=compare_pool
+                    keys_pool.append(count)
+                    count=1
+                    compare_pool=[i]
+                else:
+                    compare_pool=[i]
+                    count=1
+        else:
+            compare_pool.append(i)
+            count+=1
+    return save_res[max(keys_pool)],max(keys_pool)
+print(find_maxLen_seq("pwwkew"))
