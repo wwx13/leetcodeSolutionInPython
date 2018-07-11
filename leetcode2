@@ -2,66 +2,94 @@
 # Input: (2 -> 4 -> 3) + (5 -> 6 -> 4)
 # Output: 7 -> 0 -> 8
 # Explanation: 342 + 465 = 807.
-class ListNode(object):
+class ListNode(object):  #定义点
     def __init__(self, x):
         self.val = x
         self.next = None
-    def set_next(self,n):
-        next_node=ListNode(n)
-        self.next=next_node
-        return next_node
-end=ListNode(2)
-end.set_next(4).set_next(3)
-# print(end.val,end.next.val,end.next.next.val)
-end2=ListNode(5)
-end2.set_next(6)
-def get_sum_linklist(end,end2):
-    l=[]
-    add_one=False
-    tempnode1=end
-    tempnode2=end2
-    res_nod=ListNode(-1)
-    next=res_nod
-    while tempnode1.next!=None and tempnode2.next!=None:
-        if add_one==True:
-            if(tempnode1.val+tempnode2.val+1)>=10:
-                if next.val==-1:
-                    next.val=(tempnode1.val+tempnode2.val+1)%10
-                else:
 
-                    next=next.set_next((tempnode1.val+tempnode2.val+1)%10)
-            else:
-                if next.val==-1:
-                    next.val=tempnode1.val+tempnode2.val+1
-                    add_one=False
-                else:
-                    next=next.set_next(tempnode1.val+tempnode2.val+1)
-                    add_one=False
+class NList(): #定义链表存储结构
+    def __init__(self,node):
+        self.head=node
+    def add_node(self,addedNode):
+        tempnode=self.head
+        while tempnode.next!=None:
+            tempnode=tempnode.next
+        tempnode.next=addedNode
+        return self
+    def print_order_list(self):
+        tempnode=self.head
+        print(tempnode.val)
+        while tempnode.next!=None:
+            tempnode = tempnode.next
+            print(tempnode.val)
+
+
+    def get_len(self):
+        tempnode=self.head
+        length=1
+        while tempnode.next!=None:
+            tempnode=tempnode.next
+            length+=1
+        return length
+Head1=ListNode(2)
+H1=NList(Head1)
+H1.add_node(ListNode(4)).add_node(ListNode(3))
+# H1.print_order_list()
+
+#342+65=407  这里使用 65因为 它更具有一般性不要全部位数相同的相加
+H2=NList(ListNode(5))
+H2.add_node(ListNode(6)).add_node(ListNode(4)).add_node(ListNode(3))
+# H2.print_order_list()
+# print(H2.get_len())
+def sum_Nlist(H1,H2):
+    result_head=NList(ListNode(-1))
+    res_H=result_head.head
+    len1=H1.get_len()
+    len2=H2.get_len()
+    tempnode1=H1.head
+    tempnode2=H2.head
+    signal_add=False
+    while tempnode1!=None and tempnode2!=None:#边界条件为任何一个没有子节点了
+        add_res=tempnode1.val+tempnode2.val
+
+        if signal_add==True:
+            add_res=add_res+1
+        if add_res>=10:
+           tempvalue=add_res%10
+           signal_add=True
         else:
-            if (tempnode1.val + tempnode2.val) >= 10:
-                if next.val == -1:
-                    next.val = (tempnode1.val + tempnode2.val ) % 10
-                else:
-                    next=next.set_next((tempnode1.val + tempnode2.val) % 10)
-                add_one=True
-            else:
-                if next.val == -1:
-                    next.val = tempnode1.val + tempnode2.val
-                else:
-                    next=next.set_next(tempnode1.val + tempnode2.val)
-                add_one=False
-        tempnode1=tempnode1.next
+            tempvalue=add_res
+            signal_add=False
+        if res_H.val==-1:  #结果的头节点未赋值
+            res_H.val=tempvalue
+        else:
+            result_head.add_node(ListNode(tempvalue))
+
         tempnode2=tempnode2.next
-    if tempnode1.next!=None:
-        longerNode=tempnode1
-    else:
-        longerNode=tempnode2
-    while longerNode.next!=None:
-        if add_one==True:
-            next=next.set_next(longerNode.next.val+1)
-            add_one=False
+        tempnode1=tempnode1.next
+
+    if len1>len2:#是第二个短
+        longerList=tempnode1
+    elif len1==len2 and signal_add==True:
+        result_head.add_node(ListNode(1))
+        return result_head
+    elif len2>len1:
+        longerList=tempnode2
+    while longerList!=None:
+
+        if signal_add==True:
+            tempvalue=longerList.val+1
         else:
-            next=next.set_next(longerNode.next.val)
-        longerNode=longerNode.next
-    return res_nod
-print(get_sum_linklist(end,end2).next.next.val)
+            tempvalue=longerList.val
+        if tempvalue>=10:
+            result_head.add_node(ListNode(tempvalue%10))
+            signal_add=True
+        else:
+            result_head.add_node(ListNode(tempvalue))
+            signal_add=False
+        longerList=longerList.next
+    if signal_add==True:
+        result_head.add_node(ListNode(1))
+    return  result_head
+
+sum_Nlist(H1,H2).print_order_list()
