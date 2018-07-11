@@ -93,3 +93,59 @@ def sum_Nlist(H1,H2):
     return  result_head
 
 sum_Nlist(H1,H2).print_order_list()
+
+
+####上面的方法使用了链表结构，进位通过if else 信号量判断  代码量多 下面仅仅使用ListNode结构，使用add_num（0，1）进位
+# Definition for singly-linked list.
+# Input: (2 -> 4 -> 3) + (5 -> 6 -> 4)
+# Output: 7 -> 0 -> 8
+# Explanation: 342 + 465 = 807.
+class ListNode(object):  #定义点
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+head1=ListNode(2)
+point1=head1
+point1.next=ListNode(4)
+point1=point1.next
+point1.next=ListNode(5)
+
+head2=ListNode(5)
+point2=head2
+point2.next=ListNode(6)
+def sum_list(head1,head2):
+    add_num=0  #要么加1要么加0 进位
+    result_head=ListNode(0)
+    point=result_head
+    tempnode1=head1
+    tempnode2=head2
+    while tempnode1!=None and tempnode2!=None:
+        value=tempnode1.val+tempnode2.val+add_num
+        if value>=10:
+            value=value%10
+            add_num=1
+        else:
+            add_num=0
+        point.next=ListNode(value)
+        point=point.next
+        tempnode1=tempnode1.next
+        tempnode2=tempnode2.next
+    if tempnode1!=None:
+        tempnode=tempnode1
+    elif tempnode1==None and tempnode2==None:
+        return result_head
+    else:
+        tempnode=tempnode2
+    while tempnode!=None:
+        value=tempnode.val+add_num
+        if value>=10:
+            value=value%10
+            add_num=1
+        else:
+            add_num=0
+        point.next=ListNode(value)
+        point=point.next
+        tempnode=tempnode.next
+    return result_head
+print(sum_list(head1,head2).next.next.next.val)
