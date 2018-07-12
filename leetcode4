@@ -22,6 +22,7 @@
 # The median is (2 + 3)/2 = 2.5
 #
 #分治   分别对两个数组对比中位数大小，以大中位数为flag,对小中位数的数组分割，递归求解。
+#复杂度 分析 数组规模m,n   m>n   考虑放大 为m,m规模的比较，T(m+m)<T(m+m/2)+O(1)   复杂度O(log(m+m))
 def get_mid_index(length):  #获取中间索引
     if length%2==0:
         return length//2
