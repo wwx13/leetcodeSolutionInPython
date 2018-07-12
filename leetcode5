@@ -1,0 +1,39 @@
+# -*- coding:utf-8 -*-
+
+
+# Given a string s, find the longest palindromic（回文） substring in s. You may assume that the maximum length of s is 1000.
+#
+# Example 1:
+#
+#
+# Input: "babad"
+# Output: "bab"
+# Note: "aba" is also a valid answer.
+#
+#
+# Example 2:
+#
+#
+# Input: "cbbd"
+# Output: "bb"
+#
+#
+def get_longest_palindromic(ls):
+    dic={}
+    for ind,val in enumerate(ls):
+        if val not in dic:
+            dic[val]=[1,0,1]
+        else:
+            length=ind-ls.index(val)+1
+            s_index=ls.index(val)
+            e_index=ind
+            dic[val]=[length,s_index,e_index+1]
+    mx=0
+    point=0
+    for i in dic:
+
+        if dic[i][0]>mx:
+            mx=dic[i][0]
+            point=i
+    return ls[dic[point][1]:dic[point][2]]
+print(get_longest_palindromic('babad'))
