@@ -1,0 +1,77 @@
+# -*- coding:utf-8 -*-
+
+
+# There are two sorted arrays nums1 and nums2 of size m and n respectively.
+#
+# Find the median of the two sorted arrays. The overall run time complexity should be O(log (m+n)).
+#
+# Example 1:
+#
+# nums1 = [1, 3]
+# nums2 = [2]
+#
+# The median is 2.0
+#
+#
+#
+# Example 2:
+#
+# nums1 = [1, 2]
+# nums2 = [3, 4]
+#
+# The median is (2 + 3)/2 = 2.5
+#
+#分治   分别对两个数组对比中位数大小，以大中位数为flag,对小中位数的数组分割，递归求解。
+def get_mid_index(length):  #获取中间索引
+    if length%2==0:
+        return length//2
+    else:
+        return (length-1)//2
+def get_partition(ls,flag):#对不明确的部分与较大中位数比较分割
+    sm_ls=[]
+    bg_ls=[]
+    for i in ls:
+        if i<=flag:
+            sm_ls.append(i)
+        else:
+            bg_ls.append(i)
+    return sm_ls,bg_ls
+def compare_select(ls1,ls2,target,adajust=0):#
+    len1=len(ls1)
+    len2=len(ls2)
+    mid=target-adajust
+    mid1=get_mid_index(len1)
+    mid2=get_mid_index(len2)
+    #轮空处理
+    if len(ls1)==0:
+        return ls2[mid2+1]
+    elif len(ls2)==0:
+        return ls1[mid1+1]
+
+    if ls1[mid1]==ls2[mid2]:
+        return ls1[mid1]
+    elif ls1[mid1]>ls2[mid2]:
+        smaller_ls=ls2
+        smaller_ls_mid=mid2
+        bigger_ls=ls1
+        bigger_ls_mid=mid1
+    else:
+        smaller_ls=ls1
+        smaller_ls_mid=mid1
+        bigger_ls=ls2
+        bigger_ls_mid=mid2
+    #对不明确的部分划分
+    sm_ls,bg_ls=get_partition(smaller_ls[smaller_ls_mid+1:],bigger_ls[bigger_ls_mid])
+    cross_smaller_len=bigger_ls_mid+smaller_ls_mid+1+len(sm_ls)#对加入中位数小的数组前半部分后的大数组前部部分长度计算
+    #递归
+    if cross_smaller_len>mid:
+        return compare_select(smaller_ls[0:smaller_ls_mid+1]+sm_ls,bigger_ls[0:bigger_ls_mid],target)
+    elif cross_smaller_len==mid:
+            return bigger_ls[bigger_ls_mid]
+    else:
+        return compare_select(bg_ls,bigger_ls[bigger_ls_mid+1:],cross_smaller_len,target)
+ls1=[1,2,3,4,9]
+ls2=[5,6,7]
+target=get_mid_index(len(ls1)+len(ls2))
+print(compare_select(ls1,ls2,target=target))
+# print(target)
