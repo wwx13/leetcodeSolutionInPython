@@ -1,0 +1,38 @@
+#问题：选择数组里最大，第二大元素
+#选最大+最小  2n-3
+#分组 1.5n-2
+#分治 1.5n-2
+#锦标赛算法 n+logn-2
+#竞标赛算法可以同时求得最大第二大值 复杂度O（n）   但是不再适用于第三第四大 求解过程就复杂了
+ls=[1,2,3,6,11,7,9,0,1,8]
+save={} #存储每代的淘汰关系
+def get_second_biggest(ls,iter=0):
+    length=len(ls)
+    if length==1:#边界条件
+        return save,ls[0]
+    save[iter]={}
+    bigger_ls=[]
+    for i in range(0,length,2):
+
+        if (i+1)<=length-1:
+            if ls[i]>=ls[i+1]:
+                save[iter][ls[i]]=ls[i+1]
+                bigger_ls.append(ls[i])
+            else:
+                save[iter][ls[i+1]]=ls[i]
+                bigger_ls.append(ls[i+1])
+
+    if i+1==length:#轮空处理
+        bigger_ls.append(ls[length-1])
+    return get_second_biggest(bigger_ls,iter+1)
+def print_second(save,max):
+    bigger=0
+    for key in save:
+        try:#有可能轮空导致没有某代淘汰关系
+            if save[key][max]>bigger:
+                bigger=save[key][max]
+        except Exception as e:
+            continue
+    return bigger
+save,max=get_second_biggest(ls,0)
+print(print_second(save,max))
