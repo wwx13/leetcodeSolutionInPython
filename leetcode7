@@ -1,0 +1,48 @@
+# -*- coding:utf-8 -*-
+
+
+# Given a 32-bit signed integer, reverse digits of an integer.
+#
+# Example 1:
+#
+#
+# Input: 123
+# Output: 321
+#
+#
+# Example 2:
+#
+#
+# Input: -123
+# Output: -321
+#
+#
+# Example 3:
+#
+#
+# Input: 120
+# Output: 21
+#
+#
+# Note:
+# Assume we are dealing with an environment which could only store integers within the 32-bit signed integer range: [−231,  231 − 1]. For the purpose of this problem, assume that your function returns 0 when the reversed integer overflows.
+#
+
+def reverst_inter(integer):
+    st=str(integer)
+    if st[0] in ['-']:
+        index=1
+        append='-'
+    else:
+        index=0
+        append=''
+    stack=[]
+    for i in range(index,len(st)):
+        stack.append(st[i])
+        # stack.append(int(st[i])).reverse
+    paste=''
+    while stack!=[]:
+        paste+=stack.pop()
+    return int(append+paste)
+print(reverst_inter(-123))
+
