@@ -24,3 +24,31 @@
 
 1 <= S.length = shifts.length <= 20000
 0 <= shifts[i] <= 10 ^ 9
+letter=' '.join(map(chr,range(97,123))).split()
+letter_2_idx={}
+idx_2_letter={}
+for i,l in enumerate(letter):
+    letter_2_idx[l]=i
+    idx_2_letter[i]=l
+def switch_str(S,shifts):
+    # new_S=''
+    S_n=[]
+    for si in S:
+        S_n.append(letter_2_idx[si])
+    S=S_n
+    for idx_len,shif in enumerate(shifts):
+        idx_len=idx_len+1
+        new_S = []
+        for i,v in enumerate(S):
+            if idx_len>=i+1:
+                new_S.append(v+shif)
+            else:
+                new_S.append(v)
+        S=new_S
+    res=''
+    for i in S:
+        if i>26:
+            i=i%26
+        res+=idx_2_letter[i]
+    return res
+print(switch_str('abc',[3,5,9]))
