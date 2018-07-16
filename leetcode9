@@ -1,0 +1,88 @@
+# -*- coding:utf-8 -*-
+# Determine whether an integer is a palindrome（回文）. An integer is a palindrome when it reads the same backward as forward.
+#
+# Example 1:
+#
+#
+# Input: 121
+# Output: true
+#
+#
+# Example 2:
+#
+#
+# Input: -121
+# Output: false
+# Explanation: From left to right, it reads -121. From right to left, it becomes 121-. Therefore it is not a palindrome.
+#
+#
+# Example 3:
+#
+#
+# Input: 10
+# Output: false
+# Explanation: Reads 01 from right to left. Therefore it is not a palindrome.
+#
+#
+# Follow up:
+#
+# Coud you solve it without converting the integer to a string?
+#用取余的方法
+def isPalindrome( x):
+    """
+    :type x: int
+    :rtype: bool
+    """
+    if x < 0:
+        return False
+    x = abs(x)
+    l = len(str(x))
+    i = 1
+    while i < l / 2 + 1:
+        print(x)
+        head = int((x / 10 ** (l - i))%10)
+        tail = int((x % 10 ** i) if i == 1 else (x % 10 ** i) / (10 ** (i - 1)))
+        print(head,tail)
+        if head != tail:
+            return False
+        i = i + 1
+        x=x-head*10**(l-i+1)-tail*10**(i-2)
+    return True
+print(isPalindrome(1523251))
+#递归求出数字方法 比较复杂
+def get_length(inter):
+    return len(str(inter))
+def get_num(iter,sum,flag,ls):
+    if iter==-1:
+        return sum
+    for j in range(1,10):
+        ls.append(str(j))
+        sum+=j*10**iter
+        res=get_num(iter-1,sum,flag,ls)
+        if res==flag:
+            return ls
+        elif isinstance(res,int):
+            sum=res-j*10**iter
+            ls.pop()
+        else:
+            return ls
+    return sum
+def if_palindrome(inter):
+    if inter<0:
+        return False
+    else:
+        length=get_length(inter)
+        sum=0
+        iter=length-1
+        ls=[]
+        ls=get_num(iter,sum,inter,ls)
+        i1=int(''.join(ls))
+        pst=''
+        for i in range(len(ls)-1,-1,-1):
+            pst+=ls[i]
+        i2=int(pst)
+        if i1==i2:
+            return True
+        else:
+            return False
+print(if_palindrome(121))
