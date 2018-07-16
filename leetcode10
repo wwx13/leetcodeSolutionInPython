@@ -1,0 +1,115 @@
+# -*- coding:utf-8 -*-
+
+
+# Given an input string (s) and a pattern (p), implement regular expression matching with support for '.' and '*'.
+#
+#
+# '.' Matches any single character.
+# '*' Matches zero or more of the preceding element.
+#
+#
+# The matching should cover the entire input string (not partial).
+#
+# Note:
+#
+#
+# 	s could be empty and contains only lowercase letters a-z.
+# 	p could be empty and contains only lowercase letters a-z, and characters like . or *.
+#
+#
+# Example 1:
+#
+#
+# Input:
+# s = "aa"
+# p = "a"
+# Output: false
+# Explanation: "a" does not match the entire string "aa".
+#
+#
+# Example 2:
+#
+#
+# Input:
+# s = "aa"
+# p = "a*"
+# Output: true
+# Explanation: '*' means zero or more of the precedeng element, 'a'. Therefore, by repeating 'a' once, it becomes "aa".
+#
+#
+# Example 3:
+#
+#
+# Input:
+# s = "ab"
+# p = ".*"
+# Output: true
+# Explanation: ".*" means "zero or more (*) of any character (.)".
+#
+#
+# Example 4:
+#
+#
+# Input:
+# s = "aab"
+# p = "c*a*b"
+# Output: true
+# Explanation: c can be repeated 0 times, a can be repeated 1 time. Therefore it matches "aab".
+#
+#
+# Example 5:
+#
+#
+# Input:
+# s = "mississippi"
+# p = "mis*is*p*."
+# Output: false
+
+def is_match(strings,regular_expression):
+    skip=False
+
+    point_str=0
+    for id,val in enumerate(regular_expression):
+        # print(skip,id,point_str)/
+        print(point_str,val)
+        if skip==False:
+            if point_str>len(strings)-1:
+                return  True
+            if val==strings[point_str]:
+                val_v =val
+                flag=False
+                point_str+=1
+
+            elif val=='.':
+                flag=True
+                point_str+=1
+            elif val=='*':
+                if id==0:
+
+                    return False
+                else:
+                    if flag==True:
+                        return True
+                    else:
+                        while strings[point_str]==val_v:
+                            point_str=point_str+1
+                            if point_str>len(strings)-1:
+                                break
+
+
+
+            else:
+                if id<len(regular_expression)-1 and regular_expression[id+1]=="*":
+
+                    skip=True
+
+                else:
+                    return False
+
+        else:
+            skip=False
+    if point_str!=len(strings):
+        return False
+    else:
+        return True
+print(is_match("aab","c*a*b*1"))
