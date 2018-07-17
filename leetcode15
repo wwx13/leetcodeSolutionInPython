@@ -1,0 +1,23 @@
+# -*- coding:utf-8 -*-
+
+
+# Given an array nums of n integers, are there elements a, b, c in nums such that a + b + c = 0? Find all unique triplets in the array which gives the sum of zero.
+#
+# Note:
+#
+# The solution set must not contain duplicate triplets.
+#
+# Example:
+#
+#
+# Given array nums = [-1, 0, 1, 2, -1, -4],
+#
+# A solution set is:
+# [
+#   [-1, 0, 1],
+#   [-1, -1, 2]
+# ]
+#
+
+#思路1  排序后考虑最大的那个数字下标为k  寻找之前的key:差值加入列表 如果存在return nlogn+n**2=o(N**2)
+#思路2 排序后假设中间的那个数是b ,  a<b<c,以b划分在前半部分寻找a:方式和上面一样 O(N**2)
