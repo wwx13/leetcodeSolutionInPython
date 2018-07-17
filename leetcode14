@@ -1,0 +1,36 @@
+# -*- coding:utf-8 -*-
+
+
+# Write a function to find the longest common prefix （前缀）string amongst an array of strings.
+#
+# If there is no common prefix, return an empty string "".
+#
+# Example 1:
+#
+#
+# Input: ["flower","flow","flight"]
+# Output: "fl"
+#
+#
+# Example 2:
+#
+#
+# Input: ["dog","racecar","car"]
+# Output: ""
+# Explanation: There is no common prefix among the input strings.
+#
+#
+# Note:
+#
+# All given inputs are in lowercase letters a-z.
+
+def get_l_c_p_s(ls):
+    flag_string=ls[0]
+    lcs=[]
+    for i,val in enumerate(flag_string):
+        if set(val)==set([j[i] for j in ls[1:]]):
+            lcs.append(val)
+        else:
+            break
+    return lcs
+print(get_l_c_p_s(["dog","racecar","car"]))
