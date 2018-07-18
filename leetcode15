@@ -21,3 +21,26 @@
 
 #思路1  排序后考虑最大的那个数字下标为k  寻找之前的key:差值加入列表 如果存在return nlogn+n**2=o(N**2)
 #思路2 排序后假设中间的那个数是b ,  a<b<c,以b划分在前半部分寻找a:方式和上面一样 O(N**2)
+def get3_sum0(ls):
+    res=[]
+    s_l=sorted(ls)
+    app=True
+    for i,val in enumerate(ls):
+        if val>=0:
+            break
+    for k in range(i,len(ls)):
+        need_l=[]
+        for second in s_l[0:k]:
+            need=0-s_l[k]-second
+            if second in need_l:
+                for m in res:
+                    if second in m and need in m and s_l[k] in m:
+                        app=False
+                if app==True:
+                    res.append( [second,need,s_l[k]])
+                app=True
+            else:
+                need_l.append(need)
+    return res
+print(get3_sum0([-1, 0, 1, 2, -1, -4,-2,1]))
+
