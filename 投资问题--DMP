@@ -1,0 +1,19 @@
+#投资问题m元钱投资n个项目，求解最优投资
+#下面给定实例m=5 n=4
+FX=[[0,11,12,13,14,15],[0,0,5,10,15,20],[0,2,10,30,32,40],[0,20,21,22,23,24]]
+m=5
+n=4
+K=[[-1 for j in range(m)] for i in range(n)]
+def dmp_invest(FX,m,n,K,mx=0):
+    if n==1:
+        return FX[n-1][m],K
+    for mi in range(0,m+1):#xk
+         child,K=dmp_invest(FX,m-mi,n-1,K,mx)
+         child=child+FX[n-1][mi]
+         if child>mx:
+             mx=child
+             K[n-1][m-1]=mi
+    return mx,K
+x,y=dmp_invest(FX,m,n,K)
+print(x)
+print(y)
