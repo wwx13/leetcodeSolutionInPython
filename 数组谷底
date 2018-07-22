@@ -1,0 +1,47 @@
+def getVally(A):
+    id=0
+    down=False
+    ls=[]
+    start=-1
+    while id<len(A)-1:
+        val = A[id]
+        id += 1
+        if not down:#down=F
+            if A[id]>=val:
+                continue
+            else:
+                if start!=-1:
+
+                    end=id-1
+                    if ls==[]:
+                        ls.append([end-start+1,start,end])
+                    else:
+                        if ls[0][0]<end-start+1 and (end-start+1)>=3:
+                            ls[0]=[end-start+1,start,end]
+                    down=False
+                    start=-1
+                    start = id - 1
+                    down = True
+                    continue
+                else:
+                    start=id-1
+                    down=True
+                    continue
+        else:
+            if A[id]>val:
+                down=False
+            elif A[id]==val:
+                down=False
+                start=-1
+                continue
+            else:
+                continue
+    if start!=-1:
+        end=len(A)-1
+        if ls == []:
+            ls.append([end - start + 1, start, end])
+        else:
+            if ls[0][0] < end - start + 1 and (end - start + 1) >= 3:
+                ls[0] = [end - start + 1, start, end]
+    return ls[0][0]
+print(getVally([4,3,2,5,3,1,4,8]))
