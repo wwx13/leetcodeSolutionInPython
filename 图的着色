@@ -1,0 +1,29 @@
+#迭代
+def iter_print(D,E,P):
+    X=[P for i in range(len(D))]
+    S=[[] for j in range(len(D))]
+    S[0]=X[0]
+    k=0
+    route=[]
+    while k!=-1:
+        while S[k]!=[]:
+            y=S[k][0]
+            S[k].remove(y)
+            route.append(y)
+            k=k+1
+            if k == len(D):
+                print(route)
+                break
+            S[k]=[]
+            for p in ['RED','BLUE','ORG']:#计算S[k+1]可取值
+                # print(p)
+                if p not in [route[dot-1] for dot in E[k+1] if dot<=len(route)]:
+                    S[k].append(p)
+        if k>=0:
+            k=k-1
+            if k>=0:
+                route.pop()
+
+D=[1,2,3,4,5,6,7]
+E={1:[2,6,7],2:[1,7,3],3:[7,2,4],4:[3,5,6],5:[4,6],6:[5,4,7,1],7:[1,2,3,6]}
+iter_print(D,E,['RED','BLUE','ORG'])
