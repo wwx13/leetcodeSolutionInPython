@@ -1,4 +1,4 @@
-#搜索子集数
+#搜索子集数  这个是写的很烂的 刚开始思路很乱
 #迭代实现
 def cal_new_boundary(b1,b2,RES,w):
     # print(RES)
@@ -68,76 +68,42 @@ def get_allocate(n,w,b1,b2):
             k=k+1
     return True
 get_allocate(7,[90,80,40,30,20,12,10],152,130)
-
 #递归实现
-def cal_new_boundary(b1,b2,RES,w):
-    # print(RES)
-    B1=b1
-    B2=b2
-    for id,val in enumerate(RES):
-        # print(id,"//")
-        B1=B1-w[id]*val
-        B2=B2-w[id]*(1-val)
-    return B1,B2
-def get_allocate(n,w,b1,b2):
-    RES=[]
+def rtrack(k,M,b1,b2,route,w,P):
+    if k==len(w):
+        print(route)
+        route.pop()
+        return k-1,M,route
+    while M[k]!=[]:
+        y=max(M[k])
+        route.append(y)
+        M[k].remove(y)
+        k=k+1
+        if k==len(w):
+            print(route)
+            route.pop()
+            return k-1,M,route
+        B1=b1
+        B2=b2
+        for id,val in enumerate(route):
+            print(id,">>>")
+            B1=B1-w[id]*val
+            B2=B2-w[id]*(1-val)
+        for val in P[k]:
+            if B1-val*w[k]>=0 and B2-val*(1-w[k])>=0:
+                M[k].append(val)
+        k,M,route=rtrack(k,M,b1,b2,route,w,P)
+    # if M[k]==[]:
+    #     k=k-1
+    route.pop()
+    return k-1,M,route
+def r_rtrack(b1,b2,w):
+    P=[[0,1] for j in range(len(w))]
+    M=[[] for g in range(len(w))]
+    M[0]=P[0]
     k=0
-    O=[[0,1] for i in range(n)]
-    M=[[] for j in range(n)]
-    B1=b1
-    B2=b2
-    def reloop(k,B1,B2):
-        M[k]=[]
-        for x in O[k]:
-            if B1-x*w[k]>=0 and (B2-(1-x)*w[k])>=0:
-                M[k].append(x)
-        if M[k]!=[]:
-            # print(M[k])
-            y=max(M[k])
-            RES.append(y)
-            M[k].remove(y)
-            B1,B2=cal_new_boundary(b1,b2,RES,w)
-            k=k+1
-        else:
-            while M[k]==[]:
-                k=k-1
-                if k>=0:
-                    RES.pop()
-                if k==-1:
-                    return k,B1,B2
-            y=max(M[k])
-            M[k].remove(y)
-            RES.append(y)
-            B1,B2=cal_new_boundary(b1,b2,RES,w)
-            k=k+1
-        return k,B1,B2
-    while k>=0:
-        while k<n:
-
-            k,B1,B2=reloop(k,B1,B2)
-            print(k)
-            if k==-1:
-
-                break
-        if k==n:
-            print(RES)
-            k=k-1
-            RES.pop()
-            while M[k]==[]:
-                k=k-1
-                print(k,"////")
-                if k>=0:
-                    RES.pop()
-                else:
-                    return True
-            y=max(M[k])
-            print(k,"llll")
-            M[k].remove(y)
-            RES.append(y)
-            B1,B2=cal_new_boundary(b1,b2,RES,w)
-            k=k+1
-    return True
-get_allocate(7,[90,80,40,30,20,12,10],152,130)
-
+    route=[]
+    rtrack(k,M,b1,b2,route,w,P)
+r_rtrack(152,130,[90,80,40,30,20,12,10])
 
 
