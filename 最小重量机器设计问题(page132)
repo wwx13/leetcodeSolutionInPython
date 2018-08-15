@@ -1,5 +1,5 @@
 #迭代回溯及分支界限
-def iter_get(P,W,b):
+def iter_get(P,W,b,minWeight):
     k=0
     S=[[] for i in range(4)]
     S[0]=[0,1,2]
@@ -16,6 +16,8 @@ def iter_get(P,W,b):
             for index,r in enumerate(route):
                 B=B-P[index][r]
                 COST+=W[index][r]
+            for left in range(len(route),4):
+                COST+=minWeight[left]
             if COST>=BEST:
                 route.pop()
                 break
@@ -40,6 +42,12 @@ def iter_get(P,W,b):
             if k>=0:
                 route.pop()
     return save
+def pre_preocess(W):
+    min_weight=[]
+    for m in W:
+        min_weight.append(min(m))
+    return min_weight
 P=[[10,8,12],[20,21,30],[40,42,30],[30,60,45]]
 W=[[5,6,4],[8,10,5],[5,4,10],[20,10,15]]
-print("best",iter_get(P,W,120))
+print("best",iter_get(P,W,120,pre_preocess(W)))
+
