@@ -1,0 +1,45 @@
+#迭代回溯及分支界限
+def iter_get(P,W,b):
+    k=0
+    S=[[] for i in range(4)]
+    S[0]=[0,1,2]
+    BEST=999999
+    route=[]
+    save={}#存储最优路径
+    while k!=-1:
+        while S[k]!=[]:
+            y=S[k][-1]
+            S[k].pop()
+            route.append(y)
+            B=b
+            COST=0
+            for index,r in enumerate(route):
+                B=B-P[index][r]
+                COST+=W[index][r]
+            if COST>=BEST:
+                route.pop()
+                break
+            else:
+                k=k+1
+                if k==4:
+                    if COST<BEST:
+                        BEST=COST
+                    save[BEST] = route
+                    print(route,BEST)
+
+                    k=k-1
+                    route.pop()
+                    break
+                S[k]=[]
+                #计算S[K+1]
+                for p in P[k]:
+                    if p<=B:
+                        S[k].append(P[k].index(p))
+        if S[k]==[]:
+            k=k-1
+            if k>=0:
+                route.pop()
+    return save
+P=[[10,8,12],[20,21,30],[40,42,30],[30,60,45]]
+W=[[5,6,4],[8,10,5],[5,4,10],[20,10,15]]
+print("best",iter_get(P,W,120))
