@@ -27,3 +27,44 @@ def iter_print(D,E,P):
 D=[1,2,3,4,5,6,7]
 E={1:[2,6,7],2:[1,7,3],3:[7,2,4],4:[3,5,6],5:[4,6],6:[5,4,7,1],7:[1,2,3,6]}
 iter_print(D,E,['RED','BLUE','ORG'])
+
+#递归
+#调试中的问题 1.k的增加不是1小bug   2.不写return 导致参数未更新
+
+def recursion(D,E,P,k,S,route):
+    if k==len(D):
+        print(route)
+        k=k-1
+        route.pop()
+        return k,S,route
+    while S[k]!=[]:
+        y=S[k][-1]
+        route.append(y)
+        S[k].pop()
+        k=k+1
+        if k==len(D):
+            print(route)
+            k=k-1
+            route.pop()
+            break
+        S[k]=[]
+        for p in ['RED','BLUE','ORG']:
+            if p not in [route[dot-1] for dot in E[k+1] if dot<=len(route)]:
+                S[k].append(p)
+        k,S,route=recursion(D,E,P,k,S,route)
+    if S[k]==[]:
+        k=k-1
+        if k>=0:
+            route.pop()
+    return k,S,route
+
+def r_recursion(D,E,P):
+    #初始化
+    S=[[] for j in range(len(D))]
+    route=[]
+    k=0
+    S[0]=P
+    recursion(D,E,P,k,S,route)
+D=[1,2,3,4,5,6,7]
+E={1:[2,6,7],2:[1,7,3],3:[7,2,4],4:[3,5,6],5:[4,6],6:[5,4,7,1],7:[1,2,3,6]}
+r_recursion(D,E,['RED','BLUE','ORG'])
