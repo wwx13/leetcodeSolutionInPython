@@ -1,4 +1,4 @@
-#八皇后问题  递归回溯
+#八皇后问题  递归回溯(深度优先的递归实现)
 def check(ls):
     n=len(ls)
     if n==1:
@@ -20,3 +20,43 @@ def queen_problem(k):
             ls[k+1:]=[-1 for i in range(k+1,8)]  #回溯必须还原后面的值为-1
             if  check(ls[0:k+1]):
                 queen_problem(k+1)
+
+#非递归的广度优先实现   队列和 节点
+class Node:
+    def __init__(self,val,p):
+        self.val=val
+        self.parent=p
+
+
+def iter_queen(n):
+    q=[]
+    c=0
+    M=[i for i in range(n)]
+    node_count=-1
+    for q_i in M:
+        node_count+=1
+        q.insert(0,Node(q_i,None))
+
+    while q!=[]:
+
+        tempnode=q.pop()
+        route=[]
+        s=tempnode
+        while tempnode!=None:
+            route.append(tempnode.val)
+            tempnode=tempnode.parent
+        route=[m for m in reversed(route)]
+        for x in M:
+            sig=0
+            for index,v in enumerate(route):
+                if abs(len(route)-index)==abs(x-v) or len(route)==index or x==v:
+                    sig=1
+                    break
+            if sig==0:
+                node_count+=1
+                q.insert(0,Node(x,s))
+                if len(route)+1==n:
+                    c+=1
+                    print([m for m in reversed(route)]+[x]," ",c)
+
+iter_queen(8)
