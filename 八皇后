@@ -1,4 +1,4 @@
-#八皇后问题  递归回溯(深度优先的递归实现)
+#八皇后问题  递归回溯(深度优先的递归实现)    O(n**n)
 def check(ls):
     n=len(ls)
     if n==1:
@@ -27,7 +27,7 @@ class Node:
         self.val=val
         self.parent=p
 
-
+#O(n**n)
 def iter_queen(n):
     q=[]
     c=0
