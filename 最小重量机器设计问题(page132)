@@ -51,3 +51,64 @@ P=[[10,8,12],[20,21,30],[40,42,30],[30,60,45]]
 W=[[5,6,4],[8,10,5],[5,4,10],[20,10,15]]
 print("best",iter_get(P,W,120,pre_preocess(W)))
 
+#递归
+def recursion(W,P,k,route,BEST,S,b,min_Weight,COST):
+    if k==4:
+
+        print(route,BEST)
+        k=k-1
+        route.pop()
+        return  W,P,k,route,BEST,S,b,min_Weight
+    while S[k]!=[]:
+
+        y=S[k][-1]
+        S[k].pop()
+        route.append(y)
+        B=120
+        COST=0
+        for index, r in enumerate(route):
+            B=B-P[index][r]
+            COST+=W[index][r]
+        for left in range(len(route),4):
+            COST+=min_Weight[left]
+        if COST>=BEST:
+            route.pop()
+            break
+        else:
+            #计算S[K+1]
+            k=k+1
+
+            if k==4:
+                if COST<BEST:
+                    BEST=COST
+                print(route, BEST)
+                k = k - 1
+                route.pop()
+                break
+            S[k]=[]
+            for p in P[k]:
+                if p<=B:
+                    S[k].append(P[k].index(p))
+            W, P, k, route, BEST, S, b, min_Weight=recursion(W,P,k,route,BEST,S,b,min_Weight,COST)
+
+    if S[k]==[]:
+        k=k-1
+        if k>=0:
+            route.pop()
+    return W,P,k,route,BEST,S,b,min_Weight
+def pre_process(W):
+    min_weight=[]
+    for j in W:
+        min_weight.append(min(j))
+    return min_weight
+def r_recorsion(W,P,b,min_Weight):
+    k=0
+    S=[[] for i in range(4)]
+    S[0]=[0,1,2]
+    BEST=99999
+    route=[]
+    COST=99999
+    recursion(W,P,k,route,BEST,S,b,min_Weight,COST)
+P=[[10,8,12],[20,21,30],[40,42,30],[30,60,45]]
+W=[[5,6,4],[8,10,5],[5,4,10],[20,10,15]]
+r_recorsion(W,P,120,pre_process(W))
