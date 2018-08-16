@@ -1,0 +1,53 @@
+def get_room(A,B,S,R,C):
+    for x in [1,2,3,4]:
+        if x not in A[R+1] and x not in B[C]:
+            S[R][C].append(x)
+    return S
+
+def iter(A,B):
+    R=0
+    C=0
+    M=[1,2,3,4]
+    S=[[[] for i in range(4)] for j in range(3)]
+    S[0][0]=[2,3,4]
+    RES=[]
+    while R!=-1:
+        while S[R][C]!=[]:
+            # print(R,C)
+            y=S[R][C][-1]
+            S[R][C].pop()
+            A[R+1].append(y)
+            B[C].append(y)
+            RES.append(y)
+            if R<=2 and C<3:
+                C=C+1
+            elif R<=2 and C==3:
+                C=0
+                R+=1
+                if R==3:
+                    print(RES,"||")
+                    R=R-1
+                    C=3
+                    A[R+1].pop()
+                    B[C].pop()
+                    RES.pop()
+                    break
+            # print(R,C)
+            S[R][C]=[]
+            S=get_room(A,B,S,R,C)
+        if S[R][C]==[]:
+            if C>0:
+                C=C-1
+            else:
+                R=R-1
+                C=3
+            if RES!=[]:
+                A[R+1].pop()
+                B[C].pop()
+                RES.pop()
+
+
+A=[[1,2,3,4],[],[],[]]
+B=[[1],[2],[3],[4]]
+
+iter(A,B)
